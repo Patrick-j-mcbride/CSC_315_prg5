@@ -22,7 +22,7 @@ template <typename HashedObj>
 class HashTable
 {
   public:
-    explicit HashTable( int size = 101 ) : array( nextPrime( size ) )
+    explicit HashTable( int size = 101 ) : array( nextPrime( size) )
       { makeEmpty( ); }
 
     bool contains( const HashedObj & x ) const
@@ -117,7 +117,7 @@ class HashTable
     }
     int myhash( const HashedObj & x ) const
     {
-        int hashVal = hash( x );
+        int hashVal = x;
 
         hashVal %= array.size( );
         if( hashVal < 0 )
