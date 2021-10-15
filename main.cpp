@@ -1,4 +1,5 @@
 #include <iostream>
+#include <time.h> 
 #include "QuadraticProbing.h"
 using namespace std;
 
@@ -6,26 +7,26 @@ using namespace std;
 int main(void)
 {
     HashTable<int> H;
+    int probeCt = 0;
+    int numGen = 100;
+    int numInsert = 10;
 
-    const int NUMS = 4000;
-    const int GAP  =   37;
-    int i;
+    srand (time(NULL));
 
-    cout << "Checking... (no more output means success)" << endl;
-
-    for( i = GAP; i != 0; i = ( i + GAP ) % NUMS )
-        H.insert( i );
-    for( i = 1; i < NUMS; i += 2 )
-        H.remove( i );
-
-    for( i = 2; i < NUMS; i +=2 )
-        if( !H.contains( i ) )
-            cout << "Contains fails " << i << endl;
-
-    for( i = 1; i < NUMS; i += 2 )
+    for (int k = 0; k < 5; k++)
     {
-        if( H.contains( i ) )
-            cout << "OOPS!!! " <<  i << endl;
+            for( int i = 0; i < numGen; i++)
+        {
+            for (int j = 0; j < numInsert; j++)
+            {   
+                H.insert((int)(rand() % 1000));
+            }
+            probeCt += H.numProbe;
+            H.makeEmpty();
+        }
+        cout << "Average number of probes for " << numInsert << ":   " << (probeCt/(double)numGen) << endl;
+        numInsert += 10;
+        numGen = numInsert * 10;
     }
 
     return 0;

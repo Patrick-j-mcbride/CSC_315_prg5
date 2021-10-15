@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <iostream>
 using namespace std;
 
 int nextPrime( int n );
@@ -22,6 +23,9 @@ template <typename HashedObj>
 class HashTable
 {
   public:
+
+    int numProbe;
+
     explicit HashTable( int size = 101 ) : array( nextPrime( size) )
       { makeEmpty( ); }
 
@@ -37,7 +41,7 @@ class HashTable
             array[ i ].info = EMPTY;
     }
 
-    bool insert( const HashedObj & x )
+    bool insert( HashedObj x )
     {
             // Insert x as active
         int currentPos = findPos( x );
@@ -63,6 +67,7 @@ class HashTable
         return true;
     }
 
+
     enum EntryType { ACTIVE, EMPTY, DELETED };
 
   private:
@@ -70,7 +75,6 @@ class HashTable
     {
         HashedObj element;
         EntryType info;
-
         HashEntry( const HashedObj & e = HashedObj( ), EntryType i = EMPTY )
           : element( e ), info( i ) { }
     };
@@ -78,24 +82,32 @@ class HashTable
     vector<HashEntry> array;
     int currentSize;
 
+
     bool isActive( int currentPos ) const
       { return array[ currentPos ].info == ACTIVE; }
 
-    int findPos( const HashedObj & x ) const
+    int findPos( HashedObj x )
     {
         int offset = 1;
         int currentPos = myhash( x );
+        int probeCount = 1;
 
-          // Assuming table is half-empty, and table length is prime,
-          // this loop terminates
-        while( array[ currentPos ].info != EMPTY &&
-                array[ currentPos ].element != x )
+        // Assuming table is half-empty, and table length is prime,
+        // this loop terminates
+        while( (array[ currentPos ].info != EMPTY) && (array[ currentPos ].element != x) )
         {
             currentPos += offset;  // Compute ith probe
             offset += 2;
+            probeCount++;
+
             if( currentPos >= array.size( ) )
-                currentPos -= array.size( );
+            {
+                currentPos -= array.size( );                
+            }
+
         }
+
+        numProbe = probeCount;
 
         return currentPos;
     }
