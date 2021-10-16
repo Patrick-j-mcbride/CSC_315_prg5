@@ -13,11 +13,13 @@ void printTable(double Qprobe[], double Lprobe[] );
 int main(void)
 {
     HashTable<int> Q;
-    LinearHashTable<int>  L;
+    LinearHashTable<int> L;
+
     double Qprobe[5];
     double Lprobe[5];
-    int QprobeCt = 0;
-    int LprobeCt = 0;
+
+    int QprobeCt, LprobeCt, insertMe;
+    
     int numGen = 100;
     int numInsert = 10;
 
@@ -27,27 +29,30 @@ int main(void)
     {
         LprobeCt = 0;
         QprobeCt = 0;
-            for( int i = 0; i < numGen; i++)
+        
+        for( int i = 0; i < numGen; i++)
         {
             for (int j = 0; j < numInsert; j++)
             {   
-                Q.insert((int)(rand() % 1000));
-                L.insert((int)(rand() % 1000));
+                insertMe = (rand() % 1000);
+                Q.insert(insertMe);
+                L.insert(insertMe);
             }
+
             QprobeCt += Q.numProbe;
             Q.makeEmpty();
             LprobeCt += L.numProbe;
             L.linearMakeEmpty();
         }
-        Lprobe[k] = (LprobeCt/(double)numGen);
-        numInsert += 10;        
+
+        Lprobe[k] = (LprobeCt/(double)numGen);      
         Qprobe[k] = (QprobeCt/(double)numGen);
+        
         numInsert += 10;
         numGen = numInsert * 10;
     }
 
     printTable(Qprobe, Lprobe);
-
     return 0;
 }
 
