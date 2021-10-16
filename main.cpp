@@ -16,7 +16,8 @@ int main(void)
     LinearHashTable<int>  L;
     double Qprobe[5];
     double Lprobe[5];
-    int probeCt = 0;
+    int QprobeCt = 0;
+    int LprobeCt = 0;
     int numGen = 100;
     int numInsert = 10;
 
@@ -24,34 +25,23 @@ int main(void)
 
     for (int k = 0; k < 5; k++)
     {
-        probeCt = 0;
+        LprobeCt = 0;
+        QprobeCt = 0;
             for( int i = 0; i < numGen; i++)
         {
             for (int j = 0; j < numInsert; j++)
             {   
                 Q.insert((int)(rand() % 1000));
-            }
-            probeCt += Q.numProbe;
-            Q.makeEmpty();
-        }
-        Qprobe[k] = (probeCt/(double)numGen);
-        numInsert += 10;
-        numGen = numInsert * 10;
-    }
-
-    for (int k = 0; k < 5; k++)
-    {
-        probeCt = 0;
-            for( int i = 0; i < numGen; i++)
-        {
-            for (int j = 0; j < numInsert; j++)
-            {   
                 L.insert((int)(rand() % 1000));
             }
-            probeCt += L.numProbe;
+            QprobeCt += Q.numProbe;
+            Q.makeEmpty();
+            LprobeCt += L.numProbe;
             L.linearMakeEmpty();
         }
-        Lprobe[k] = (probeCt/(double)numGen);
+        Lprobe[k] = (LprobeCt/(double)numGen);
+        numInsert += 10;        
+        Qprobe[k] = (QprobeCt/(double)numGen);
         numInsert += 10;
         numGen = numInsert * 10;
     }
