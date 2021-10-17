@@ -1,15 +1,25 @@
 #include <iostream>
 #include <time.h> 
+#include <iomanip>
 #include "QuadraticProbing.h"
 #include "LinearProbing.h"
-#include <iomanip>
+
 using namespace std;
 
 
 void printTable(double Qprobe[], double Lprobe[] );
 
+/** ************************************************
+Team:   Patrick McBride and Zoe Millage
 
-    // Simple main
+Compile with and run with:
+
+    g++ -c LinearProbing.cpp
+    g++ -c QuadraticProbing.cpp
+    g++ main.cpp QuadraticProbing.o LinearProbing.o -o run
+    ./run
+
+************************************************ **/
 int main(void)
 {
     HashTable<int> Q;
@@ -34,14 +44,15 @@ int main(void)
         {
             for (int j = 0; j < numInsert; j++)
             {   
-                insertMe = (rand() % 1000);
+                // the same set of random numbers is inserted into both lists
+                insertMe = (rand() % 1000); 
                 Q.insert(insertMe);
                 L.insert(insertMe);
             }
 
             QprobeCt += Q.numProbe;
-            Q.makeEmpty();
             LprobeCt += L.numProbe;
+            Q.makeEmpty();
             L.linearMakeEmpty();
         }
 
@@ -53,6 +64,7 @@ int main(void)
     }
 
     printTable(Qprobe, Lprobe);
+
     return 0;
 }
 
