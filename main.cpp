@@ -30,7 +30,6 @@ int main(void)
 
     int QprobeCt, LprobeCt, insertMe;
     
-    int numGen = 100;
     int numInsert = 10;
 
     srand (time(NULL));
@@ -40,7 +39,7 @@ int main(void)
         LprobeCt = 0;
         QprobeCt = 0;
         
-        for( int i = 0; i < numGen; i++)
+        for( int i = 0; i < 100; i++)
         {
             for (int j = 0; j < numInsert; j++)
             {   
@@ -56,11 +55,10 @@ int main(void)
             L.linearMakeEmpty();
         }
 
-        Lprobe[k] = (LprobeCt/(double)numGen);      
-        Qprobe[k] = (QprobeCt/(double)numGen);
+        Lprobe[k] = (LprobeCt/100.0);      
+        Qprobe[k] = (QprobeCt/100.0);
         
         numInsert += 10;
-        numGen = numInsert * 10;
     }
 
     printTable(Qprobe, Lprobe);
